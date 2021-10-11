@@ -1,20 +1,22 @@
 import React from 'react'
-import io from 'socket.io-client'
+import styles from './App.module.css'
+import {JoinBlock} from "./Components/JoinBlock";
+import socket from './socket'
 
 
-// const socket = io(`http://localhost:9999`)
 
 
 function App() {
-    const connectSocket = ()=> {
-        io(`http://localhost:9000`);
-    }
-
-  return (
-    <div className="App">
-      <button onClick={connectSocket}>connect</button>
-    </div>
-  );
+    return (
+        <>
+            <div className={styles.wrapper}>
+                <JoinBlock/>
+            </div>
+            <div className={styles.footer}>
+                <span>Gorky 52</span>
+            </div>
+        </>
+    );
 }
 
 export default App;
