@@ -1,6 +1,6 @@
 .wrapper{
     max-width: 800px;
-    height: 55vh;
+    height: 95vh;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -10,13 +10,33 @@
 .input{
     margin-bottom: 5px;
     outline: none;
+    height: 30px;
+    border-radius: 5px;
 }
 .button{
+    width: 100%;
+    font-size: 20px;
+    background: #008aff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+}
+.button:hover{
+    background: #007be7;
     cursor: pointer;
+}
+.button:disabled{
+    background: #004480;
+    cursor: wait;
 }
 .join_Block{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-bottom: 250px;
+}
+.footer{
+    display:flex;
+    justify-content: center;
 }
