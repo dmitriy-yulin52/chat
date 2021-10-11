@@ -12,8 +12,8 @@ function App() {
         joined: false,
         roomId: null,
         userName: null,
-        users: [1,2,3,4],
-        messages: [1,2,3,4],
+        users: [],
+        messages: [],
     });
 
     const onLogin = (obj) => {

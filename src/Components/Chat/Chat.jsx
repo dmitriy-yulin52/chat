@@ -1,12 +1,13 @@
 import React from 'react';
 import styles from '../../App.module.css';
 import {FormAddMessage} from '../../Components/FormAddMesasge/FormAddMessage'
+import logo from '../../img/icons8-people-working-together-50.png'
 
 export const Chat = () => {
 
 
     return (<>
-            <div className={styles.header}><img src={'#'} alt={'logo'} /></div>
+            <div className={styles.header}><img src={logo} alt={'logo'} /></div>
             <div className={styles.wrapChat}>
 
                 <div className={styles.userList}>
