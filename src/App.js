@@ -1,34 +1,48 @@
-import React, {useReducer} from 'react'
-import styles from './App.module.css'
+import React, {useEffect, useReducer} from 'react';
+import styles from './App.module.css';
 import {JoinBlock} from "./Components/JoinBlock/JoinBlock";
-import socket from './socket'
-import reducer from './reducer/reducer'
+import socket from './socket';
+import reducer from './reducer/reducer';
+import {Chat} from './Components/Chat/Chat'
 
 
 function App() {
 
     const [state, dispatch] = useReducer(reducer, {
         joined: false,
+        roomId: null,
+        userName: null,
+        users: [1,2,3,4],
+        messages: [1,2,3,4],
     });
 
     const onLogin = (obj) => {
         dispatch({
             type: 'JOINED',
             payload: obj,
-            roomId: null,
-            useName: null,
         });
         socket.emit('ROOM:JOIN', obj);
     };
 
-    window.socket = socket
+    useEffect(()=>{
+        socket.on('ROOM:JOINED', (users)=> {
+            console.log('new users',users);
+        });
+    },[]);
+
+
+
+    window.socket = socket;
     console.log(state);
 
     return (
         <>
             <>
                 <div className={styles.wrapper}>
-                    {!state.joined && <JoinBlock onLogin={onLogin}/>}
+                    {!state.joined ? <JoinBlock onLogin={onLogin}/>
+                        : <Chat
+
+                    />}
                 </div>
             </>
             <div className={styles.footer}>

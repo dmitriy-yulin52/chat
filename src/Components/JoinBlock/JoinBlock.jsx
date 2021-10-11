@@ -17,17 +17,16 @@ export const JoinBlock = ({onLogin}) => {
         if (!roomId || !userName) {
             alert('пустое значение')
         } else {
-            console.log(roomId, userName)
             setRoomId('')
             setUserName('')
-            setIsLoading(true)
-            const obj = {
-                roomId,
-                userName,
-            }
-            await axios.post('/rooms', obj);
-            onLogin(obj)
         }
+        setIsLoading(true)
+        const obj = {
+            roomId,
+            userName,
+        }
+        await axios.post('/rooms', obj);
+        onLogin(obj)
 
     };
 
