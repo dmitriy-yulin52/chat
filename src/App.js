@@ -7,14 +7,28 @@ import reducer from './reducer/reducer'
 
 function App() {
 
-    const [state,dispatch] = useReducer(reducer,{
-        isAuth:false,
-    })
+    const [state, dispatch] = useReducer(reducer, {
+        joined: false,
+    });
+
+    const onLogin = (obj) => {
+        dispatch({
+            type: 'JOINED',
+            payload: obj,
+            roomId: null,
+            useName: null,
+        });
+        socket.emit('ROOM:JOIN', obj);
+    };
+
+    window.socket = socket
+    console.log(state);
+
     return (
         <>
             <>
                 <div className={styles.wrapper}>
-                    <JoinBlock/>
+                    {!state.joined && <JoinBlock onLogin={onLogin}/>}
                 </div>
             </>
             <div className={styles.footer}>

@@ -3,27 +3,32 @@ import styles from "../../App.module.css";
 import socket from '../../socket'
 import axios from 'axios'
 
-export const JoinBlock = () => {
+export const JoinBlock = ({onLogin}) => {
 
     const [roomId, setRoomId] = useState('');
     const [userName, setUserName] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const onChangeHandler = (func, value) => {
         func(value);
     };
 
-    const onClickHandler = () => {
+    const onClickHandler = async () => {
         if (!roomId || !userName) {
             alert('пустое значение')
         } else {
             console.log(roomId, userName)
             setRoomId('')
             setUserName('')
+            setIsLoading(true)
+            const obj = {
+                roomId,
+                userName,
+            }
+            await axios.post('/rooms', obj);
+            onLogin(obj)
         }
-        axios.post('/rooms',{
-            roomId,
-            userName,
-        });
+
     };
 
     return (
@@ -44,9 +49,11 @@ export const JoinBlock = () => {
                     onChange={(e) => onChangeHandler(setUserName, e.currentTarget.value)}
                 />
                 <button
+                    disabled={isLoading}
                     className={styles.button}
                     onClick={onClickHandler}
-                >Войти
+                >
+                    {isLoading ? 'Вход...' : 'Войти'}
                 </button>
             </div>
         </>

@@ -28,15 +28,21 @@ app.post('/rooms', (req, res) => {
         rooms.set(
             roomId,
             new Map([
-            ['users', new Map()],
-            ['messages', []],
-        ]))
+                ['users', new Map()],
+                ['messages', []],
+            ]))
     }
     res.send();
 });
 
 io.on('connection', (socket) => {
-    console.log('user connected', socket.id)
+    socket.on('ROOM:JOIN', ({roomId, userName}) => {
+        socket.join(roomId);
+        rooms.get(roomId).get('users').socket(socket.id, userName);
+        const users = rooms.get(roomId).get('users').values();
+        socket.to(roomId).broadcast.emit('ROOM:JOINED',users);
+    });
+    console.log('user connected', socket.id);
 });
 
 httpServer.listen(9999, (err) => {
