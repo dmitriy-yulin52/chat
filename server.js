@@ -39,10 +39,19 @@ io.on('connection', (socket) => {
         socket.join(roomId);
         rooms.get(roomId).get('users').set(socket.id, userName);
         const users = [...rooms.get(roomId).get('users').values()];
-        socket.broadcast.to(roomId).emit('ROOM:JOINED',users);
+        socket.broadcast.to(roomId).emit('ROOM:JOINED', users);
     });
-    console.log('user connected', socket.id);
+
+    socket.on('disconnect', () => {
+        rooms.forEach((value, roomId) => {
+            if (value.get('users').delete(socket.id)) {
+                const users = [...value.get('users').values()];
+                socket.broadcast.to(roomId).emit('ROOM:SET_USERS', users);
+            }
+        });
+    });
 });
+
 
 httpServer.listen(9999, (err) => {
     if (err) {

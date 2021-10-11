@@ -24,12 +24,18 @@ function App() {
         socket.emit('ROOM:JOIN', obj);
     };
 
-    useEffect(()=>{
-        socket.on('ROOM:JOINED', (users)=> {
-            console.log('new users',users);
-        });
-    },[]);
 
+    const setUsers = (users)=> {
+        dispatch({
+            type: 'SET_USERS',
+            payload: users
+        })
+    };
+
+    useEffect(() => {
+        socket.on('ROOM:JOINED',setUsers );
+        socket.on('ROOM:SET_USERS',setUsers);
+    }, []);
 
 
     window.socket = socket;
@@ -41,8 +47,8 @@ function App() {
                 <div className={styles.wrapper}>
                     {!state.joined ? <JoinBlock onLogin={onLogin}/>
                         : <Chat
-
-                    />}
+                            {...state}
+                        />}
                 </div>
             </>
             <div className={styles.footer}>

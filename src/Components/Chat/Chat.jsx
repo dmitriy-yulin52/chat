@@ -3,7 +3,7 @@ import styles from '../../App.module.css';
 import {FormAddMessage} from '../../Components/FormAddMesasge/FormAddMessage'
 import logo from '../../img/icons8-people-working-together-50.png'
 
-export const Chat = () => {
+export const Chat = ({users,messages}) => {
 
 
     return (<>
@@ -13,11 +13,15 @@ export const Chat = () => {
                 <div className={styles.userList}>
                     <div className={styles.userList__title}>
                         <span>Room: </span>
-                        <span>Online:</span>
+                        <span>Online:{users.length}</span>
                     </div>
                     <div>
                         <ul className={styles.userList__body}>
-                                <li>userName</li>
+                            {users.map((name)=>{
+                                return(
+                                    <li>{name}</li>
+                                )
+                            })}
                         </ul>
                     </div>
                 </div>
