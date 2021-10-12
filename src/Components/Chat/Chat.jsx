@@ -2,21 +2,22 @@ import React, {useState} from 'react';
 import styles from '../../App.module.css';
 import {FormAddMessage} from '../../Components/FormAddMesasge/FormAddMessage'
 import logo from '../../img/icons8-people-working-together-50.png'
-import {socket}from '../../socket'
+import {socket} from '../../socket'
 import {Message} from "../Message/Message";
+import {v1} from "uuid";
 
 export const Chat = (props) => {
     const {users, messages, roomId, userName, addMessage} = props
 
     const [messageValue, setMessageValue] = useState('')
 
-    const onSendMessage = () => {
+    const onSendMessage = (message) => {
         socket.emit('ROOM:NEW_MESSAGE', {
             userName,
             roomId,
-            text: messageValue,
+            text: message,
         });
-        addMessage({userName, text: messageValue});
+        addMessage({userName, text: message});
         setMessageValue('');
     };
 
@@ -33,7 +34,7 @@ export const Chat = (props) => {
                         <ul className={styles.userList__body}>
                             {users.map((name) => {
                                 return (
-                                    <li key={name + roomId}>{name}</li>
+                                    <li key={v1()}>{name}</li>
                                 )
                             })}
                         </ul>
@@ -42,26 +43,24 @@ export const Chat = (props) => {
 
                 <div className={styles.wrapChatContent}>
                     <div className={styles.messagesList}>
-                        <div className={styles.message}>
-                            {messages.map((message) => {
-                                return (
-                                    <div key={message.userName + roomId}>
-                                        <div>{message.text}</div>
-                                        <span>name</span>
-                                    </div>
-                                )
-                            })}
-                        </div>
+                        {messages.map((message) => {
+                            return (
+                                <div key={v1()}>
+                                    <Message
+                                        message={message}
+                                        userName={userName}
+                                    />
+                                    {/*<div className={message.userName !== userName ? styles.message : styles.message_my}>*/}
+                                    {/*    <div>{message.text}</div>*/}
+                                    {/*    <span className={styles.message__userName}>{message.userName}</span>*/}
+                                    {/*</div>*/}
+                                </div>
+                            )
+                        })}
 
                     </div>
-                        <form>
-                            <input
-                                value={messageValue}
-                                onChange={(e) => setMessageValue(e.currentTarget.value)}
-                            />
-                            <button onClick={onSendMessage} type={'button'}>click</button>
-                        </form>
-                        {/*<FormAddMessage onSendMessage={onSendMessage}/>*/}
+
+                    <FormAddMessage onSendMessage={onSendMessage}/>
                 </div>
             </div>
         </>
