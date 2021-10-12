@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import styles from "../../App.module.css";
-import socket from '../../socket'
 import axios from 'axios'
 
 export const JoinBlock = ({onLogin}) => {
@@ -23,9 +22,13 @@ export const JoinBlock = ({onLogin}) => {
             const obj = {
                 roomId,
                 userName,
+            };
+            try{
+                await axios.post('/rooms', obj);
+                onLogin(obj)
+            } catch (e) {
+                alert('error')
             }
-            await axios.post('/rooms', obj);
-            onLogin(obj)
         }
     };
 

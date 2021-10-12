@@ -3,7 +3,9 @@ import { useFormik } from 'formik';
 import styles from '../../App.module.css';
 import * as Yup from 'yup';
 
-export const FormAddMessage = React.memo(() => {
+export const FormAddMessage = React.memo((props) => {
+
+    const {onSendMessage} = props
 
     const addMessageSchema = Yup.object().shape({
         'message': Yup.string().required('Required field')
@@ -15,6 +17,7 @@ export const FormAddMessage = React.memo(() => {
         },
         validationSchema: addMessageSchema,
         onSubmit: (formData) => {
+            onSendMessage(formData.message);
             formAddMessage.resetForm();
         }
     });

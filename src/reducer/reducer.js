@@ -15,7 +15,7 @@ export default (state, action) => {
                 users:action.payload,
             };
 
-        case 'NEW_MESSAGES':
+        case 'NEW_MESSAGE':
             return {
                 ...state,
                 messages:[...state.messages,action.payload],

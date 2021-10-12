@@ -1,7 +1,7 @@
 import React, {useEffect, useReducer} from 'react';
 import styles from './App.module.css';
 import {JoinBlock} from "./Components/JoinBlock/JoinBlock";
-import socket from './socket';
+import {socket} from './socket';
 import reducer from './reducer/reducer';
 import {Chat} from './Components/Chat/Chat'
 import axios from 'axios'
@@ -23,8 +23,12 @@ function App() {
             payload: obj,
         });
         socket.emit('ROOM:JOIN', obj);
-        const {data} = await axios.get(`/rooms/${obj.roomId}`);
-        setUsers(data.users);
+        try {
+            const {data} = await axios.get(`/rooms/${obj.roomId}`);
+            setUsers(data.users);
+        } catch (e) {
+            alert('error')
+        }
     };
 
 
@@ -34,16 +38,17 @@ function App() {
             payload: users,
         });
     };
+    const addMessage = (message) => {
+        dispatch({
+            type: 'NEW_MESSAGE',
+            payload: message,
+        });
+    };
 
     useEffect(() => {
-        socket.on('ROOM:JOINED', setUsers);
+        // socket.on('ROOM:JOINED', setUsers);
         socket.on('ROOM:SET_USERS', setUsers);
-        socket.on('ROOM:NEW_MESSAGE', (message) => {
-            dispatch({
-                type: 'NEW_MESSAGE',
-                payload: message,
-            });
-        });
+        socket.on('ROOM:NEW_MESSAGE', addMessage)
     }, []);
 
 
@@ -57,6 +62,7 @@ function App() {
                     {!state.joined ? <JoinBlock onLogin={onLogin}/>
                         : <Chat
                             {...state}
+                            addMessage={addMessage}
                         />}
                 </div>
             </>
