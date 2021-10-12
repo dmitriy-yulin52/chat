@@ -19,7 +19,7 @@ export const Chat = ({users,messages}) => {
                         <ul className={styles.userList__body}>
                             {users.map((name)=>{
                                 return(
-                                    <li>{name}</li>
+                                    <li key={name} className={styles.li}>{name}</li>
                                 )
                             })}
                         </ul>

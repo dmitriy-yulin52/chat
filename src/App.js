@@ -4,6 +4,7 @@ import {JoinBlock} from "./Components/JoinBlock/JoinBlock";
 import socket from './socket';
 import reducer from './reducer/reducer';
 import {Chat} from './Components/Chat/Chat'
+import axios from 'axios'
 
 
 function App() {
@@ -16,25 +17,27 @@ function App() {
         messages: [],
     });
 
-    const onLogin = (obj) => {
+    const onLogin = async (obj) => {
         dispatch({
             type: 'JOINED',
             payload: obj,
         });
         socket.emit('ROOM:JOIN', obj);
+        const {data} = await axios.get(`/rooms/${obj.roomId}`);
+        setUsers(data.users);
     };
 
 
-    const setUsers = (users)=> {
+    const setUsers = (users) => {
         dispatch({
             type: 'SET_USERS',
-            payload: users
-        })
+            payload: users,
+        });
     };
 
     useEffect(() => {
-        socket.on('ROOM:JOINED',setUsers );
-        socket.on('ROOM:SET_USERS',setUsers);
+        socket.on('ROOM:JOINED', setUsers);
+        socket.on('ROOM:SET_USERS', setUsers);
     }, []);
 
 
