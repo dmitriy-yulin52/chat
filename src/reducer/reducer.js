@@ -15,10 +15,10 @@ export default (state, action) => {
                 users:action.payload,
             };
 
-        case 'SET_MESSAGES':
+        case 'NEW_MESSAGES':
             return {
                 ...state,
-                messages:action.payload,
+                messages:[...state.messages,action.payload],
             };
         default:
             return state;

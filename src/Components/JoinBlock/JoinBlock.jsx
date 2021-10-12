@@ -19,15 +19,14 @@ export const JoinBlock = ({onLogin}) => {
         } else {
             setRoomId('')
             setUserName('')
+            setIsLoading(true)
+            const obj = {
+                roomId,
+                userName,
+            }
+            await axios.post('/rooms', obj);
+            onLogin(obj)
         }
-        setIsLoading(true)
-        const obj = {
-            roomId,
-            userName,
-        }
-        await axios.post('/rooms', obj);
-        onLogin(obj)
-
     };
 
     return (
