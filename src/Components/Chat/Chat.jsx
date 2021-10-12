@@ -42,7 +42,6 @@ export const Chat = (props) => {
 
                 <div className={styles.wrapChatContent}>
                     <div className={styles.messagesList}>
-                        <div style={{width: '200px',backgroundColor:'red'}}>hello</div>
                         <div className={styles.message}>
                             {messages.map((message) => {
                                 return (

@@ -148,8 +148,7 @@
 .messagesList{
     height: 90%;
     width: 100%;
-    border:1px solid red;
-    /*overflow-y: scroll;*/
+    overflow-y: scroll;
 }
 .message,
 .message_my{

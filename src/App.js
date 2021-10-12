@@ -18,12 +18,12 @@ function App() {
     });
 
     const onLogin = async (obj) => {
+        try {
         dispatch({
             type: 'JOINED',
             payload: obj,
         });
         socket.emit('ROOM:JOIN', obj);
-        try {
             const {data} = await axios.get(`/rooms/${obj.roomId}`);
             setUsers(data.users);
         } catch (e) {
