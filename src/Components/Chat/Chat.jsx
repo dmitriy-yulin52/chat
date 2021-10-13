@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import styles from '../../App.module.css';
 import {FormAddMessage} from '../../Components/FormAddMesasge/FormAddMessage'
 import logo from '../../img/icons8-people-working-together-50.png'
@@ -7,7 +7,8 @@ import {Message} from "../Message/Message";
 import {v1} from "uuid";
 
 export const Chat = (props) => {
-    const {users, messages, roomId, userName, addMessage} = props
+    const {users, messages, roomId, userName, onAddMessage} = props
+    const messageRef = useRef(null)
 
 
     const onSendMessage = (message) => {
@@ -16,8 +17,12 @@ export const Chat = (props) => {
             roomId,
             text: message,
         });
-        addMessage({userName, text: message});
+        onAddMessage({userName, text: message});
     };
+
+    useEffect(()=>{
+        messageRef.current.scrollTo(0,9999);
+    },[messages])
 
     return (<>
             <div className={styles.header}><img src={logo} alt={'logo'}/></div>
@@ -40,7 +45,7 @@ export const Chat = (props) => {
                 </div>
 
                 <div className={styles.wrapChatContent}>
-                    <div className={styles.messagesList}>
+                    <div ref={messageRef} className={styles.messagesList}>
                         {messages.map((message) => {
                             return (
                                 <div key={v1()}>

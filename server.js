@@ -37,7 +37,7 @@ app.post('/rooms', (req, res) => {
             new Map([
                 ['users', new Map()],
                 ['messages', []],
-            ]))
+            ]));
     }
     res.send();
 });
@@ -62,6 +62,7 @@ io.on('connection', (socket) => {
         rooms.forEach((value, roomId) => {
             if (value.get('users').delete(socket.id)) {
                 const users = [...value.get('users').values()];
+                console.log(users)
                 socket.broadcast.to(roomId).emit('ROOM:SET_USERS', users);
             }
         });

@@ -18,11 +18,11 @@ test('correct message should be added', () => {
     const action = {
         type: 'NEW_MESSAGE',
         payload: 'new message',
-    }
+    };
 
-    const endState = reducer(startState,action)
+    const endState = reducer(startState,action);
 
-    expect(endState.messages[0]).toBe('new message')
-    expect(endState.messages.length).toBe(1)
+    expect(endState.messages[0]).toBe('new message');
+    expect(endState.messages.length).toBe(1);
 
 })
