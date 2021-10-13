@@ -1,6 +1,9 @@
 import axios from 'axios'
 
 
-const instance = axios.create({
-
-})
+export const chatApi = {
+    join(roomId){
+        return axios.get(`/rooms/${roomId}`)
+            .then((response)=>response.data)
+    }
+}

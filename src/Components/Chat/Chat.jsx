@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styles from '../../App.module.css';
 import {FormAddMessage} from '../../Components/FormAddMesasge/FormAddMessage'
 import logo from '../../img/icons8-people-working-together-50.png'
@@ -9,7 +9,6 @@ import {v1} from "uuid";
 export const Chat = (props) => {
     const {users, messages, roomId, userName, addMessage} = props
 
-    const [messageValue, setMessageValue] = useState('')
 
     const onSendMessage = (message) => {
         socket.emit('ROOM:NEW_MESSAGE', {
@@ -18,7 +17,6 @@ export const Chat = (props) => {
             text: message,
         });
         addMessage({userName, text: message});
-        setMessageValue('');
     };
 
     return (<>
@@ -50,10 +48,6 @@ export const Chat = (props) => {
                                         message={message}
                                         userName={userName}
                                     />
-                                    {/*<div className={message.userName !== userName ? styles.message : styles.message_my}>*/}
-                                    {/*    <div>{message.text}</div>*/}
-                                    {/*    <span className={styles.message__userName}>{message.userName}</span>*/}
-                                    {/*</div>*/}
                                 </div>
                             )
                         })}
